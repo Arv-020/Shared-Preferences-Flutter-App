@@ -199,13 +199,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       MaterialPageRoute(
                           builder: (context) => const TeacherScreen()));
                 });
-              } else {
+              } else if (usertype == 'Student') {
                 Timer(const Duration(seconds: 1), () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const StudentScreen()));
                 });
+              } else {
+                return showDialog(
+                  // barrierColor: Colors.teal, to add the blue or something in the background
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      // alignment: Alignment.center,
+                      actionsAlignment: MainAxisAlignment.center,
+                      backgroundColor: Colors.teal,
+                      title: const Text("Please Select The User"),
+                      titleTextStyle: const TextStyle(
+                          color: Colors.tealAccent, fontSize: 16),
+                      content:
+                          const Text("Select Among Admin,Teacher or Student"),
+                      contentTextStyle: const TextStyle(
+                          color: Colors.tealAccent, fontSize: 14),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              "Ok",
+                              style: TextStyle(color: Colors.tealAccent),
+                            ))
+                      ],
+                    );
+                  },
+                );
               }
             },
             child: Container(

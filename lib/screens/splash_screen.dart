@@ -37,10 +37,15 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const TeacherScreen()));
         });
-      } else {
+      } else if (usertype == 'Student') {
         Timer(const Duration(seconds: 1), () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const StudentScreen()));
+        });
+      } else {
+        Timer(const Duration(seconds: 1), () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const SignUpScreen()));
         });
       }
     } else {

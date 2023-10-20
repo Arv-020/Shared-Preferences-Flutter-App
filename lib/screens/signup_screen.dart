@@ -177,64 +177,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           InkWell(
             onTap: () async {
-              SharedPreferences sp = await SharedPreferences.getInstance();
-              sp.setString('email', _email.text);
-              sp.setString('age', _age.text.toString());
-
-              sp.setBool('islogin', true);
-              sp.setString('user', valueChoose.toString());
-              String usertype = valueChoose.toString();
-
-              if (usertype == 'Admin') {
-                Timer(const Duration(seconds: 1), () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AdminScreen()));
-                });
-              } else if (usertype == 'Teacher') {
-                Timer(const Duration(seconds: 1), () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TeacherScreen()));
-                });
-              } else if (usertype == 'Student') {
-                Timer(const Duration(seconds: 1), () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StudentScreen()));
-                });
+              if (_email.text.trim().isEmpty &&
+                  _age.text.trim().isEmpty &&
+                  _password.text.trim().isEmpty) {
+                customDialog("Empty Field", "Fill all Fields..");
               } else {
-                return showDialog(
-                  // barrierColor: Colors.teal, to add the blue or something in the background
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      // alignment: Alignment.center,
-                      actionsAlignment: MainAxisAlignment.center,
-                      backgroundColor: Colors.teal,
-                      title: const Text("Please Select The User"),
-                      titleTextStyle: const TextStyle(
-                          color: Colors.tealAccent, fontSize: 16),
-                      content:
-                          const Text("Select Among Admin,Teacher or Student"),
-                      contentTextStyle: const TextStyle(
-                          color: Colors.tealAccent, fontSize: 14),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              "Ok",
-                              style: TextStyle(color: Colors.tealAccent),
-                            ))
-                      ],
-                    );
-                  },
-                );
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                sp.setString('email', _email.text);
+                sp.setString('age', _age.text.toString());
+
+                sp.setBool('islogin', true);
+                sp.setString('user', valueChoose.toString());
+                String usertype = valueChoose.toString();
+
+                if (usertype == 'Admin') {
+                  Timer(const Duration(seconds: 1), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AdminScreen()));
+                  });
+                } else if (usertype == 'Teacher') {
+                  Timer(const Duration(seconds: 1), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TeacherScreen()));
+                  });
+                } else if (usertype == 'Student') {
+                  Timer(const Duration(seconds: 1), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const StudentScreen()));
+                  });
+                } else {
+                  customDialog(
+                      "Select User", "Select Among Admin,Teacher,Student");
+                }
               }
             },
             child: Container(
@@ -261,6 +241,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
           )
         ],
       ),
+    );
+  }
+
+  void customDialog(String title, String content) {
+    showDialog(
+      // barrierColor: Colors.teal, to add the blue or something in the background
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          // alignment: Alignment.center,
+          actionsAlignment: MainAxisAlignment.center,
+          backgroundColor: Colors.teal,
+          title: Text(title),
+          titleTextStyle:
+              const TextStyle(color: Colors.tealAccent, fontSize: 16),
+          content: Text(content),
+          contentTextStyle:
+              const TextStyle(color: Colors.tealAccent, fontSize: 14),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "Ok",
+                  style: TextStyle(color: Colors.tealAccent),
+                ))
+          ],
+        );
+      },
     );
   }
 }
